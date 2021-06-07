@@ -2,7 +2,7 @@
 {{-- @yield('title','create') --}}
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-<h1 class="h2">Create new a product</h1>
+<h1 class="h2">Edit product</h1>
 <div class="btn-toolbar mb-2 mb-md-0">
   <div class="btn-group me-2">
     <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -24,9 +24,9 @@
 'sale_off' => $this->faker->numerify(),
 'user_id' => 1,
 'category_id' => rand(1, 7), --}}
-
-{{-- <h2>Section title</h2> --}}
-<form action="{{route('admin.products.create')}}" method="POST">
+{{-- {{route('admin.products.create')}} --}}
+<h2>Section title</h2>
+<form action="{{route('admin.products.update',$pro->id)}}" method="POST">
   {{-- @method('store') --}}
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -36,7 +36,7 @@
     @csrf
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>
-    <input type="text" name="title" value="{{old('title', '')}}" required="required" class="form-control @error('title') is-invalid @enderror" id="title">
+    <input type="text" name="title" value="{{$pro->title}}" required="required" class="form-control @error('title') is-invalid @enderror" id="title">
     @error('title')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
@@ -44,7 +44,7 @@
   <div class="mb-3">
     <label for="category" class="form-label">Category</label>
    
-    <input type="text" name="category_id" value="{{old('category_id', '')}}" class="form-control @error('category_id') is-invalid @enderror" id="category">
+    <input type="text" name="category_id" value="{{$pro->category_id}}" class="form-control @error('category_id') is-invalid @enderror" id="category">
     @error('category_id')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
@@ -52,7 +52,7 @@
   <div class="mb-3">
     <label for="price" class="form-label">Price</label>
     
-    <input type="text" name="price" value="{{old('price', '')}}" class="form-control @error('price') is-invalid @enderror" id="price">
+    <input type="text" name="price" value="{{$pro->price}}" class="form-control @error('price') is-invalid @enderror" id="price">
     @error('price')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
@@ -60,7 +60,7 @@
   <div class="mb-3">
     <label for="quantity" class="form-label">Quantity</label>
     
-    <input type="text" name="quantity" value="{{old('quantity', '')}}" class="form-control @error('quantity') is-invalid @enderror" id="quantity">
+    <input type="text" name="quantity" value="{{$pro->quantity}}" class="form-control @error('quantity') is-invalid @enderror" id="quantity">
     @error('quantity')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
@@ -68,7 +68,7 @@
   <div class="mb-3">
     <label for="sale_off" class="form-label">Sale off</label>
     
-    <input type="text" name="sale_off" value="{{old('sale_off', '')}}" class="form-control @error('sale_off') is-invalid @enderror" id="sale_off">
+    <input type="text" name="sale_off" value="{{$pro->sale_off}}" class="form-control @error('sale_off') is-invalid @enderror" id="sale_off">
     @error('sale_off')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
@@ -76,9 +76,8 @@
   <div class="mb-3">
     <label for="description" class="form-label">Description</label>
    
-    <textarea type="text" name="description" class="form-control" id="description">{{old('description', '')}}</textarea>
+    <textarea type="text" name="description" class="form-control" id="description">{{$pro->description}}</textarea>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
 @endsection
