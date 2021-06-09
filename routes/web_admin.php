@@ -1,8 +1,15 @@
 <?php
 // use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::get('login', [LoginController::class, 'login'])->name('login');
+Route::post('login', [LoginController::class, 'authenticate'])->name('login.post');
+Route::get('register', [RegisterController::class, 'index'])->name('register');
+Route::post('register', [RegisterController::class, 'register'])->name('register.post');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
       Route::prefix('products')->name('products.')->group(function(){
           Route::get('create', [AdminProductController::class, 'create'])->name('create');
   
