@@ -36,4 +36,26 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+    public function parentCategory()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+    // public function categories()
+    // {
+    //    return $this->hasMany(Category::class);
+    // }
+
+    public function childrenCategories()
+    {
+        // return $this->hasMany(Category::class, 'parent_id')->with('children');
+       return $this->hasMany(Category::class)->with('categories');
+    }
+    // public function childs()
+    // {
+    //     return $this->hasMany(Category::class, 'parent_id', 'id');
+    // }
+    // public function childrenRecursive()
+    // {
+    //     return $this->childCategories()->with('childrenRecursive');
+    // }
 }
