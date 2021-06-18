@@ -31,4 +31,39 @@ class ProductController extends Controller
 
         return $products;
     }
+    public function show($id)
+    {
+        $product = Product::with('category')->find($id,
+            [
+            'id',
+            'title',
+            'slug',
+            'description',
+            'price',
+            'quantity',
+            'photo',
+            'category_id',
+            'sale_off',
+        ]);
+
+        if ($product)
+        {
+            return $product;
+        }
+
+        // throw new ModelNotFoundException("404: Product [$id] not found!");
+    }
+    public function store(Request $request)
+    {
+        $p = Product::create($request->all());
+        if ($p)
+        {
+            return $p;
+        }
+
+        return response()->json(
+            ['error'=>'Product is not create'],
+            422
+         );
+    }
 }

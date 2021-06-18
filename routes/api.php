@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
@@ -15,11 +16,15 @@ use App\Http\Controllers\Api\ProductController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix('products')->name('products.')->group(function(){
+Route::post('login', [LoginController::class,'authenticate'])->name('login');
+
+Route::middleware('auth:api')->prefix('products')->name('products.')->group(function(){
     Route::get('/',[ProductController::class,'index'])->name('index');
 
-    // Route::get('/{id}/show', ['uses' => 'Api\ProductController@show'])
-    // ->name('show');
+    Route::get('/{id}/show', [ProductController::class,'show'])
+    ->name('show');
+    Route::post('store', [ProductController::class,'store'])
+    ->name('store');
 
 });
 Route::prefix('categories')->name('categories.')->group(function(){
