@@ -42,13 +42,7 @@ class ProductController extends Controller
         $product->save();
         return redirect(route('admin.products.list'));
     }
-        //  'title' => $this->faker->text(100),
-        // 'slug' => Str::slug($this->faker->unique()->text(100)),
-        // 'price' => $this->faker->numerify(),
-        // 'quantity' => $this->faker->numberBetween(1, 1000),
-        // 'sale_off' => $this->faker->numerify(),
-        // 'user_id' => 1,
-        // 'category_id' => rand(1, 7),
+
     public function store(CreateProductRequest $request){
         $data = $request->all();
         $data['slug'] = Str::slug($request->title);
@@ -57,16 +51,8 @@ class ProductController extends Controller
         return redirect(route('admin.products.list'));
     }
 
-    // public function destroy(Request $request, $id){
-    //     $product = Product::find($id);
-        
-    //     return redirect(route('admin.products.create'));
-    // }
-
-    public function delete($id){
-        DB::table('products')->where('id', $id)->delete();     
+    public function delete(Request $request){
+        DB::table('products')->where('id', $request->item)->delete();     
         return redirect(route('admin.products.list'));
     }
-
-    // DB::table('users')->where('votes', '>', 100)->delete();
 }

@@ -62,11 +62,7 @@
                                     <li><a class="dropdown-item" href="#">Preview</a></li>
                                     <li><a class="dropdown-item" href="{{route('product.show', [$product->id])}}">Publish</a></li>
                                     <li>
-                                        <form action="{{ route('admin.products.delete', $product->id) }}" method="POST">
-                                            @csrf
-                                            {{-- @method('DELETE') --}}
-                                            <button type="submit" class="dropdown-item">Delete</button>
-                                        </form>
+                                        <a class="dropdown-item delete" attr_id="{{$product->id}}" href="#">Delete</a>
                                     </li>
                                 </ul>
                             </div>
@@ -79,5 +75,41 @@
             {{ $products->links('vendor.pagination.bootstrap-4') }}
         </div>
     </div>
-
 @endsection
+
+@section('modal')
+<div class="modal fade" id="deleleItem" aria-hidden="true" aria-labelledby="deleleItemToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <form action="{{route('admin.products.delete')}}" method="post">
+      @csrf
+      @method('DELETE')
+      <input type="hidden" id="del_id" name="item" value="0" />
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleleItemToggleLabel">Product Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure to want to deleted this product!
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger" >Delete</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+@stop
+
+@section('js')
+<script type="text/javascript">
+  var myModal = new bootstrap.Modal(document.getElementById('deleleItem'), {
+    keyboard: false
+  })
+  $('.delete').click(function(){
+      $id = $(this).attr('attr_id');
+      $('#del_id').val($id);
+      myModal.show();
+  });
+</script>
+@stop
