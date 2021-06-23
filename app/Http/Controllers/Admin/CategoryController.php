@@ -27,11 +27,10 @@ class CategoryController extends Controller
         {
             DB::beginTransaction();
             try{
-                $product = Product::where('category_id', $request->item)->delete();
-                $category->delete();
-
+                DB::table('products')->where('category_id', $request->item)->delete(); 
+                DB::table('categories')->where('id', $request->item)->delete(); 
                 DB::commit();
-                return redirect()->route('admin.category.list')->with('success', 'Delete success');
+                return redirect()->route('admin.category.index')->with('success', 'Delete success');
             }catch (\Throwable $e)
             {
                 DB::rollBack();
@@ -41,6 +40,6 @@ class CategoryController extends Controller
 
         }
 
-        return redirect()->route('admin.category.list')->withErrors(['error', 'Error! An error occurred. Please try again later']);
+        return redirect()->route('admin.category.index')->withErrors(['error', 'Error! An error occurred. Please try again later']);
     }
 }
